@@ -1,7 +1,6 @@
 package dbconnection;
 import java.sql.*;
 import java.util.Properties;
-import org.firebirdsql.jdbc.FBDriver;
 
 public class Conection {
     Connection con;
@@ -23,11 +22,7 @@ private Connection connectToBase(String jdbcUrl, String login, String password) 
   }
 public void go(String jdbcUrl, String login, String password)throws SQLException{
 con = connectToBase(jdbcUrl,login,password);
-create= con.prepareStatement("CREATE TABLE People "
-        + "( Name    char (10), "
-        + "SecondName   char (10), "
-        + "city     char (10), "
-        + "old   integer ); ");
+create= con.prepareStatement("EXECUTE BLOCK AS BEGIN if (not exists(select 1 from rdb$relations where rdb$relation_name = 'PEOPLE')) then execute statement 'create table TEST1 ( Name char (10),SecondName char (10),city char (10),old integer )'; END ");
 con.setAutoCommit(false);
     try {
       create.execute();
