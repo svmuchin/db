@@ -29,10 +29,10 @@ public class DBConnection {
         but.setBounds(100, 100, 100, 25);
         tabl = new JTable(3, 2);
         tabl.setBounds(100, 150, 100, 100);
+        tabl.setEnabled(false);
         panel.add(tabl);
         panel.add(but);
         f.setContentPane(panel);
-
         f.setVisible(true);
 
 
