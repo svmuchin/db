@@ -18,12 +18,9 @@ public class DBConnection {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        // TODO code application logic here
-        FBDriver.class.newInstance();
-         Class.forName("org.firebirdsql.jdbc.FBDriver");
+    public static void main(String[] args) throws SQLException {
         try {
-      new Conection().connectToBase("jdbc:firebirdsql:localhost/3050:db","sysdba","masterkey");
+      new Conection().go("jdbc:firebirdsql:localhost/3050:db","sysdba","masterkey");
       System.out.println("true");
     } catch (Exception e) {
       e.printStackTrace();
