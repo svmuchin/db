@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dbconnection;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import org.firebirdsql.jdbc.FBDriver;
-
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 /**
  *
@@ -15,18 +10,25 @@ import org.firebirdsql.jdbc.FBDriver;
  */
 public class DBConnection {
 
-    /**
-     * @param args the command line arguments
-     */
+    private static JTextField dbedit;
+
     public static void main(String[] args) throws SQLException {
+
+        JFrame f = new JFrame();
+        f.setSize(500, 500);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        dbedit = new javax.swing.JTextField("Введите строку текста", 35);
+        dbedit.setSize(10, 10);
+        f.add(dbedit);
+        f.setVisible(true);
+
+
+
         try {
-      new Conection().go("jdbc:firebirdsql:localhost/3050:db","sysdba","masterkey");
-      System.out.println("true");
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.exit(-1);
+            new Conection().go("jdbc:firebirdsql:localhost/3050:db", "sysdba", "masterkey");
+            System.out.println("true");
+        } catch (Exception e) {
+            System.exit(-1);
+        }
     }
 }
-}
-
-
