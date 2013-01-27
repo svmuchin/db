@@ -1,8 +1,8 @@
 package dbconnection;
 
+import java.awt.FlowLayout;
 import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  *
@@ -11,15 +11,28 @@ import javax.swing.JTextField;
 public class DBConnection {
 
     private static JTextField dbedit;
+    private static JButton but;
+    private static JTable tabl;
 
     public static void main(String[] args) throws SQLException {
 
         JFrame f = new JFrame();
-        f.setSize(500, 500);
+        JPanel panel = new JPanel();
+        f.setBounds(100, 100, 500, 500);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        dbedit = new javax.swing.JTextField("Введите строку текста", 35);
-        dbedit.setSize(10, 10);
-        f.add(dbedit);
+        dbedit = new JTextField("Введите строку текста");
+        dbedit.setLocation(10, 10);
+        dbedit.setSize(100, 20);
+        panel.setLayout(null);
+        panel.add(dbedit);
+        but = new JButton("кнопка");
+        but.setBounds(100, 100, 100, 25);
+        tabl = new JTable(3, 2);
+        tabl.setBounds(100, 150, 100, 100);
+        panel.add(tabl);
+        panel.add(but);
+        f.setContentPane(panel);
+
         f.setVisible(true);
 
 
