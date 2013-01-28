@@ -41,7 +41,9 @@ public class CreateForm {
         
         
         
-        JTable tabl = new JTable(3, 2);
+        JTable tabl = new JTable(2,2);
+        tabl.setModel(Data);
+        
         tabl.setBounds(10, 35, 500, 200);
         tabl.setBorder(new BevelBorder(BevelBorder.LOWERED));
         tabl.setEnabled(false);

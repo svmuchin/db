@@ -38,7 +38,7 @@ public class Conection {
                 + " END");
 
         rs = select.executeQuery("SELECT * FROM TEST");
-        new CreateForm().convert(rs);
+     new CreateForm().Create(rs);
 
 
 
