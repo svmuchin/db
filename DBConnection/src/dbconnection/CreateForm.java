@@ -25,25 +25,24 @@ public class CreateForm {
         panel.add(dbedit);
         but = new JButton("кнопка");
         but.setBounds(120, 10, 100, 20);
-        
-        
+
+
         Vector namev = new Vector();
         Vector snamev = new Vector();
 
         DefaultTableModel Data = new DefaultTableModel();
-        
+
         while (rs.next()) {
             namev.add(rs.getString("name"));
             snamev.add(rs.getString("SecondName"));
         }
         Data.addColumn("name", namev);
         Data.addColumn("SecondName", snamev);
-        
-        
-        
-        JTable tabl = new JTable(2,2);
+
+
+        JTable tabl = new JTable(2, 2);
         tabl.setModel(Data);
-        
+
         tabl.setBounds(10, 35, 500, 200);
         tabl.setBorder(new BevelBorder(BevelBorder.LOWERED));
         tabl.setEnabled(false);
@@ -52,6 +51,4 @@ public class CreateForm {
         f.setContentPane(panel);
         f.setVisible(true);
     }
-
-   
 }
