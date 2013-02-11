@@ -2,17 +2,13 @@ package dbconnection;
 
 import java.sql.*;
 import java.util.Properties;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-import org.firebirdsql.jdbc.FBDriver;
 
 public class Conection {
 
     Connection con;
-    PreparedStatement create, select;
+    PreparedStatement create, select, insert;
     Statement qwe;
     ResultSet rs = null;
-   
 
     private Connection connectToBase(String jdbcUrl, String login, String password) throws SQLException {
         try {
@@ -31,20 +27,20 @@ public class Conection {
 
     public void go(String jdbcUrl, String login, String password) throws SQLException {
         con = connectToBase(jdbcUrl, login, password);
-        select = con.prepareStatement("SELECT * FROM TEST");
+
         create = con.prepareStatement("EXECUTE BLOCK AS BEGIN"
                 + " if (not exists(select 1 from rdb$relations where rdb$relation_name = 'TEST')) then"
                 + " execute statement 'create table TEST ( Name char (10),SecondName char (10))';"
                 + " END");
+        insert = con.prepareStatement("INSERT INTO TEST (Name,SecondName) values('Name1','Name2')");
+        select = con.prepareStatement("SELECT * FROM TEST");
 
-        rs = select.executeQuery("SELECT * FROM TEST");
-     new CreateForm().Create(rs);
-
-
-
+        
         con.setAutoCommit(false);
         try {
-            select.execute();
+            rs = select.executeQuery();
+            new CreateForm().Create(rs);
+            insert.execute();
             create.execute();
             con.commit();
         } catch (Exception e) {
