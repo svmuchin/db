@@ -54,6 +54,7 @@ public class Conection {
         con.setAutoCommit(false);
         try {
             rs = select.executeQuery();
+            new CreateForm().TablVisual(rs);
             new CreateForm().Create(rs);
             create.execute();
             con.commit();
