@@ -23,8 +23,7 @@ public class DBConnection {
     public static Connection con;
     MyConnection m;
 
-    public static Connection con;
-    MyConnection m;
+
 
     public void start() throws SQLException {
         con = MyConnection.getConection("jdbc:firebirdsql:localhost:db", "sysdba", "masterkey");
