@@ -18,48 +18,43 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TM extends AbstractTableModel {
     public Iterable<TableModelListener> listeners;
-   
-
+ //   DBConnection DBC=new DBConnection();
+    public ArrayList<ArrayList> result;
+    public ArrayList ColumName;
+    public TM(ArrayList<ArrayList> data,ArrayList ColumName){
+        result=data;
+        this.ColumName=ColumName;
     
+    }
+            
     @Override
     public int getRowCount() {
-        return DBConnection.result.size();
+        return result.size();
     }
 
     @Override
-    public int getColumnCount() {
-        int cc = 0;
-        try {
-            cc=DBConnection.sel.getMetaData().getColumnCount();
-        } catch (SQLException ex) {
-            Logger.getLogger(TM.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return cc;
+    public int getColumnCount() {        
+         return  result.size()==0 ? 0 : result.get(0).size();
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-      return DBConnection.result.get(rowIndex).get(columnIndex);
+       // fireTableDataChanged();
+      return result.get(rowIndex).get(columnIndex);
     }
 
    
-    @Override
-    public void fireTableChanged(TableModelEvent tme) {
-		for(TableModelListener l : this.listeners) {
-			l.tableChanged(tme);
-		}
-	}
     
     @Override
     public String getColumnName(int column) {
-        String s="";
-        try {
-            s=DBConnection.sel.getMetaData().getColumnName(column+1);
-        } catch (SQLException ex) {
-            Logger.getLogger(TM.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return s;
+        return ColumName.get(column).toString();
+    }
+
+    @Override
+   public void fireTableDataChanged() {
+        this.fireTableDataChanged();
+        
     }
     
 }
+
