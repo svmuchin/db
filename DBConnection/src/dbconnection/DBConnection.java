@@ -16,7 +16,9 @@ import javax.swing.table.TableModel;
  *
  * @author Дмитрий
  */
-public class DBConnection {
+public class DBConnection {    
+    public static Connection con;
+    MyConnection m;
 
     public static Connection con;
     MyConnection m;
