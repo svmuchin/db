@@ -50,4 +50,16 @@ public class TM extends AbstractTableModel {
 			l.tableChanged(tme);
 		}
 	}
+    
+    @Override
+    public String getColumnName(int column) {
+        String s="";
+        try {
+            s=DBConnection.sel.getMetaData().getColumnName(column+1);
+        } catch (SQLException ex) {
+            Logger.getLogger(TM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
+    }
+    
 }
