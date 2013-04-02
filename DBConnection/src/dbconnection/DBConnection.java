@@ -16,11 +16,10 @@ import javax.swing.table.TableModel;
  *
  * @author Дмитрий
  */
-public class DBConnection {    
+public class DBConnection {
+
     public static Connection con;
     MyConnection m;
-
-
 
     public void start() throws SQLException {
         con = MyConnection.getConection("jdbc:firebirdsql:localhost:db", "sysdba", "masterkey");
@@ -48,14 +47,13 @@ public class DBConnection {
     public TableModel model;
     public JButton but;
     public JTable table;
-    
 
     public class TestActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-              
+
                 new Select().insert(con, "insert into TEST (NAME, SECONDNAME) values ('q','q')");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,7 +68,4 @@ public class DBConnection {
         new DBConnection().start();
 
     }
-   
-
-    
 }
