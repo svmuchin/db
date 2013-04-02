@@ -12,7 +12,9 @@ public class Conection {
     Statement qwe;
     ResultSet rs = null;
 
-    private Connection connectToBase(String jdbcUrl, String login, String password) throws SQLException {
+    
+
+    public Connection getConection(String jdbcUrl, String login, String password) throws SQLException {
         try {
             Class.forName("org.firebirdsql.jdbc.FBDriver");
             final Properties prop = new Properties();
@@ -27,10 +29,10 @@ public class Conection {
 
     }
 
-    public void Insert(String jdbcUrl, String login, String password) {
+   /* public void Insert(Connection con) {
         try {
               System.out.println("2");
-              con = connectToBase(jdbcUrl, login, password);
+              con = getConection(jdbcUrl, login, password);
             insert = con.prepareStatement("INSERT INTO TEST (Name,SecondName) values('Name1','Name2')");
             insert.execute();
           
@@ -38,10 +40,10 @@ public class Conection {
         } catch (SQLException ex) {
             Logger.getLogger(Conection.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 
-    public void go(String jdbcUrl, String login, String password) throws SQLException {
-        con = connectToBase(jdbcUrl, login, password);
+   /* public void go(String jdbcUrl, String login, String password) throws SQLException {
+        con = Conection(jdbcUrl, login, password);
 
         create = con.prepareStatement("EXECUTE BLOCK AS BEGIN"
                 + " if (not exists(select 1 from rdb$relations where rdb$relation_name = 'TEST')) then"
@@ -63,5 +65,5 @@ public class Conection {
         } finally {
             con.close();
         }
-    }
+    }*/
 }
