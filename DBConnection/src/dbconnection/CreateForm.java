@@ -4,83 +4,86 @@
  */
 package dbconnection;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author Администратор
  */
 public class CreateForm {
-     MyConnection m;
+
+    MyConnection m;
     public Connection con;
     public TableModel model;
-    public JButton but;
+    public JButton but, but1;
     public JTable table;
     public TM model1;
     public ArrayList<ArrayList> data;
     public ArrayList detaName;
-    public  CreateForm(Connection con,MyConnection m) throws SQLException{
-        this.con=con;
-        this.m=m;
+
+    public CreateForm(Connection con, MyConnection m) throws SQLException {
+        this.con = con;
+        this.m = m;
     }
-    public void createF() throws SQLException{
-        data=m.getData();
-        detaName=m.getColumName();
+
+    public void createF() throws SQLException {
+        data = m.getData();
+        detaName = m.getColumName();
         model1 = new TM(data, detaName);
         model1.addTableModelListener(table);
         table = new JTable(model1);
+        table.setSize(500, 400);
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JScrollPane(table), BorderLayout.CENTER);
+        panel.setLayout(new FlowLayout());
+        panel.setSize(500, 400);
+        panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
-        but = new JButton("кнопка");
-        but.setBounds(210, 10, 100, 20);
-        panel.add(new JScrollPane(but), BorderLayout.PAGE_END);
-        ActionListener actionListener = new TestActionListener();
-        but.addActionListener(actionListener);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(500, 400);
-        frame.setContentPane(panel);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowListener() {
+        but = new JButton("добавить");
+        but1 = new JButton("очистить");
 
+        panel.add(new JScrollPane(but));
+        ActionListener IntactionListener = new IntActionListener();
+        ActionListener DelactionListener = new DelActionListener();
+        but.addActionListener(IntactionListener);
+        but1.addActionListener(DelactionListener);
+        frame.setSize(500, 400);
+
+        Box box = Box.createVerticalBox();
+        JToolBar toolBar = new JToolBar();
+        box.add(new JScrollPane(table));
+        toolBar.add(but);
+        toolBar.add(but1);
+
+        frame.setContentPane(box);
+        frame.getContentPane().add(toolBar);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
-                
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
-               Object[] options = { "Да", "Нет!" };
+                Object[] options = {"Да", "Нет!"};
                 int n = JOptionPane
                         .showOptionDialog(e.getWindow(), "Закрыть окно?",
-                                "Подтверждение", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
-                                options[0]);
+                        "Подтверждение", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options,
+                        options[0]);
                 if (n == 0) {
                     e.getWindow().setVisible(false);
                     System.out.println("Window Closed");
@@ -96,44 +99,49 @@ public class CreateForm {
 
             @Override
             public void windowClosed(WindowEvent e) {
-
             }
 
             @Override
             public void windowIconified(WindowEvent e) {
-              
             }
 
             @Override
             public void windowDeiconified(WindowEvent e) {
-                
             }
 
             @Override
             public void windowActivated(WindowEvent e) {
-               
             }
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                
             }
         });
         frame.setVisible(true);
     }
-        
-    public class TestActionListener implements ActionListener {
+
+    public class IntActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-
-                new Select().insert(con, "INSERT INTO TEST (F, S) VALUES ('1', '1')");
+                new Select().sqlcod(con, "INSERT INTO TEST (name, Secondname) VALUES ('1', '1')");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-        
+
+    public class DelActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+//            try {
+                System.out.println(table.getSelectedRow());
+//                new Select().sqlcod(con, "Delete from TEST");
+//            } catch (SQLException ex) {
+//                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+        }
     }
-    
+}

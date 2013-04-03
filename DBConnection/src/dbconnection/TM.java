@@ -4,12 +4,7 @@
  */
 package dbconnection;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -17,8 +12,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Администратор
  */
 public class TM extends AbstractTableModel {
-    //public Iterable<TableModelListener> listeners;
- //   DBConnection DBC=new DBConnection();
+ 
     public ArrayList<ArrayList> result;
     public ArrayList ColumName;
     public TM(ArrayList<ArrayList> data,ArrayList ColumName){

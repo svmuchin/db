@@ -26,42 +26,5 @@ public class Conection {
         }
 
     }
-
-   /* public void Insert(Connection con) {
-        try {
-              System.out.println("2");
-              con = getConection(jdbcUrl, login, password);
-            insert = con.prepareStatement("INSERT INTO TEST (Name,SecondName) values('Name1','Name2')");
-            insert.execute();
-          
-            System.out.println("1");
-        } catch (SQLException ex) {
-            Logger.getLogger(Conection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
-
-   /* public void go(String jdbcUrl, String login, String password) throws SQLException {
-        con = Conection(jdbcUrl, login, password);
-
-        create = con.prepareStatement("EXECUTE BLOCK AS BEGIN"
-                + " if (not exists(select 1 from rdb$relations where rdb$relation_name = 'TEST')) then"
-                + " execute statement 'create table TEST ( Name char (10),SecondName char (10))';"
-                + " END");
-
-        select = con.prepareStatement("SELECT * FROM TEST");
-
-
-        con.setAutoCommit(false);
-        try {
-            rs = select.executeQuery();
-            new CreateForm().Create(rs);
-            create.execute();
-            con.commit();
-        } catch (Exception e) {
-            con.rollback();
-            throw new RuntimeException(e);
-        } finally {
-            con.close();
-        }
-    }*/
 }
+   

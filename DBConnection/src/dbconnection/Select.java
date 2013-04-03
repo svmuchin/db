@@ -23,10 +23,10 @@ public class Select {
 
     }
 
-    public void insert(Connection con, String query) throws SQLException {
+    public void sqlcod (Connection con, String query) throws SQLException {
        try{
         Statement s = con.createStatement();
-        s.execute(query);
+        s.executeUpdate(query);
         }
          catch (Exception e){
              System.out.println(e);
