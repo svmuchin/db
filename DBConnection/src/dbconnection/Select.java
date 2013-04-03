@@ -7,6 +7,7 @@ package dbconnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -23,6 +24,13 @@ public class Select {
     }
 
     public void insert(Connection con, String query) throws SQLException {
-        con.prepareStatement(query).execute();
-    }
+       try{
+        Statement s = con.createStatement();
+        s.execute(query);
+        }
+         catch (Exception e){
+             System.out.println(e);
+          }
+        }
+        
 }

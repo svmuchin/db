@@ -58,11 +58,7 @@ public class MyConnection {
         }
          catch (Exception e) {
             System.out.println(e);
-        } 
-        finally {
-           // con.close();
-        }
-        
+        }        
         return result;
     }
     
