@@ -136,12 +136,12 @@ public class CreateForm {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-//            try {
-                System.out.println(table.getSelectedRow());
-//                new Select().sqlcod(con, "Delete from TEST");
-//            } catch (SQLException ex) {
-//                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+            try {
+                
+                new Select().sqlcod(con, "Delete from TEST");
+            } catch (SQLException ex) {
+                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
