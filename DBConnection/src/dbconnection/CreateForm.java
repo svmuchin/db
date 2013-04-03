@@ -22,10 +22,14 @@ import java.awt.event.WindowListener;
 import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author Администратор
@@ -36,15 +40,20 @@ public class CreateForm {
     public TableModel model;
     public JButton but;
     public JTable table;
-
-    public  CreateForm(Connection con,MyConnection m){
+    public TM model1;
+    public ArrayList<ArrayList> data;
+    public ArrayList detaName;
+    public  CreateForm(Connection con,MyConnection m) throws SQLException{
         this.con=con;
-        this.m=m;    
+        this.m=m;
     }
     public void createF() throws SQLException{
-        model = new TM(m.getData(), m.getColumName());
-        table = new JTable(model);
-        model.addTableModelListener(table);
+        data=m.getData();
+        detaName=m.getColumName();
+        model1 = new TM(data, detaName);
+        model1.addTableModelListener(table);
+        table = new JTable(model1);
+        model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
         JFrame frame = new JFrame("Database Table Model");
@@ -124,7 +133,7 @@ public class CreateForm {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-}
+    }
         
     }
     

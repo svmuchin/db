@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Администратор
  */
 public class TM extends AbstractTableModel {
-    public Iterable<TableModelListener> listeners;
+    //public Iterable<TableModelListener> listeners;
  //   DBConnection DBC=new DBConnection();
     public ArrayList<ArrayList> result;
     public ArrayList ColumName;
@@ -39,7 +39,7 @@ public class TM extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-       // fireTableDataChanged();
+       this.fireTableDataChanged();
       return result.get(rowIndex).get(columnIndex);
     }
 
@@ -49,12 +49,8 @@ public class TM extends AbstractTableModel {
     public String getColumnName(int column) {
         return ColumName.get(column).toString();
     }
+    
 
-    @Override
-   public void fireTableDataChanged() {
-        this.fireTableDataChanged();
-        
-    }
     
 }
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class MyConnection {
 
     Connection con;
@@ -57,7 +56,7 @@ public class MyConnection {
            
         }
          catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }        
         return result;
     }
