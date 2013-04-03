@@ -3,10 +3,14 @@ package dbconnection;
 import java.sql.*;
 import java.util.Properties;
 
-public class Conection {
+/**
+ *
+ * @author User
+ */
+public class Unused {
 
-     Connection con;
-     PreparedStatement create, select, insert;
+    Connection con;
+    PreparedStatement create, select, insert;
     Statement qwe;
     ResultSet rs = null;
 

@@ -18,15 +18,17 @@ import javax.swing.table.TableModel;
  *
  * @author Дмитрий
  */
-public class DBConnection {
-
+public class Main {
+    public TableModel model;
+    public JButton but;
+    public JTable table;
     public static Connection con;
     MyConnection m;
 
     public void start() throws SQLException {
         con = MyConnection.getConection("jdbc:firebirdsql:localhost:db", "sysdba", "masterkey");
         m = new MyConnection(con);
-        model = new TM(m.getData(), m.getColumName());
+        model = new Model(m.getData(), m.getColumName());
         table = new JTable(model);
         model.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
@@ -42,20 +44,18 @@ public class DBConnection {
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowListener() {
-
             @Override
             public void windowOpened(WindowEvent e) {
-                
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
-               Object[] options = { "Да", "Нет!" };
+                Object[] options = {"Да", "Нет!"};
                 int n = JOptionPane
                         .showOptionDialog(e.getWindow(), "Закрыть окно?",
-                                "Подтверждение", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
-                                options[0]);
+                        "Подтверждение", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options,
+                        options[0]);
                 if (n == 0) {
                     e.getWindow().setVisible(false);
                     System.out.println("Window Closed");
@@ -63,7 +63,7 @@ public class DBConnection {
                         con.close();
                         System.out.println("con close");
                     } catch (SQLException ex) {
-                        Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     System.exit(0);
                 }
@@ -71,36 +71,29 @@ public class DBConnection {
 
             @Override
             public void windowClosed(WindowEvent e) {
-
             }
 
             @Override
             public void windowIconified(WindowEvent e) {
-              
             }
 
             @Override
             public void windowDeiconified(WindowEvent e) {
-                
             }
 
             @Override
             public void windowActivated(WindowEvent e) {
-               
             }
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                
             }
         });
         frame.setVisible(true);
 
 
     }
-    public TableModel model;
-    public JButton but;
-    public JTable table;
+    
 
     public class TestActionListener implements ActionListener {
 
@@ -110,16 +103,16 @@ public class DBConnection {
 
                 new Select().insert(con, "INSERT INTO TEST (F, S) VALUES ('1', '1')");
             } catch (SQLException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     public static void main(String[] args) throws SQLException {
         try {
-            new DBConnection().start();
+            new Main().start();
         } catch (Exception e) {
             System.out.println(e);
-        } 
-                }
+        }
+    }
 }

@@ -16,12 +16,12 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Администратор
  */
-public class TM extends AbstractTableModel {
+public class Model extends AbstractTableModel {
     public Iterable<TableModelListener> listeners;
  //   DBConnection DBC=new DBConnection();
     public ArrayList<ArrayList> result;
     public ArrayList ColumName;
-    public TM(ArrayList<ArrayList> data,ArrayList ColumName){
+    public Model(ArrayList<ArrayList> data,ArrayList ColumName){
         result=data;
         this.ColumName=ColumName;
     
