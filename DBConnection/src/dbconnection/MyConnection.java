@@ -9,13 +9,10 @@ import java.util.logging.Logger;
 public class MyConnection {
 
     Connection con;
-    PreparedStatement create, select, insert;
-    Statement qwe;
-    ResultSet rs = null;
-    public ResultSet sel;
-    public ArrayList element;
-    public ArrayList<ArrayList> result;
-    public ArrayList CollumName;
+    PreparedStatement select, insert,update;
+    Statement stament;    
+    public ResultSet RS;  
+    public   ArrayList CollumName;
 
     public MyConnection(Connection connect){       
             con = connect;        
@@ -30,41 +27,44 @@ public class MyConnection {
             prop.put("charSet", "Cp1251");
             prop.put("lc_ctype", "WIN1251");
             return DriverManager.getConnection(jdbcUrl, prop);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ArrayList<ArrayList> getData() throws SQLException {
-
-        int k = 1;
-        result = new ArrayList();
-        try {
-                        //System.out.println("true");
-            sel = new Select().rs(con, "select * from TEST");
-            int columnCount = sel.getMetaData().getColumnCount();
+    public ArrayList<ArrayList> GetData() throws SQLException {
+        ArrayList element;
+        ArrayList<ArrayList> Data = new ArrayList();
+        try {            
+            RS = GetSelectResultSet("select * from TEST");
+            int columnCount = RS.getMetaData().getColumnCount();
             CollumName=new ArrayList();
-            for (int i=0;i<sel.getMetaData().getColumnCount();i++){
-             CollumName.add(sel.getMetaData().getColumnName(i+1).toString());
+            for (int i=0;i<RS.getMetaData().getColumnCount();i++){
+             CollumName.add(RS.getMetaData().getColumnName(i+1).toString());
             }
-               while (sel.next()) {
+               while (RS.next()) {
                 element = new ArrayList();
                 for (int i = 1; i <= columnCount; i++) {
-                    element.add(sel.getObject(i));
+                    element.add(RS.getObject(i));
                 }
-                result.add(element);
-            }
-           
+                Data.add(element);
+            }           
         }
          catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getStackTrace());
         }        
-        return result;
+        return Data;
     }
     
     public ArrayList getColumName() throws SQLException
     {       
-        return CollumName;
+        return CollumName;//CollumName;
+    }
+    
+    private ResultSet GetSelectResultSet(String query) throws SQLException
+    {      
+            return con.prepareStatement(query).executeQuery();
+       
     }
 }
 
