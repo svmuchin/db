@@ -16,6 +16,10 @@ import java.sql.Statement;
 public class Select {
 
     public ResultSet rs;
+    MyConnection m;
+    CreateForm f;
+    TM model1;
+   
 
     public ResultSet rs(Connection con, String query) throws SQLException {
         rs = con.prepareStatement(query).executeQuery();
@@ -23,14 +27,16 @@ public class Select {
 
     }
 
-    public void sqlcod (Connection con, String query) throws SQLException {
-       try{
-        Statement s = con.createStatement();
-        s.executeUpdate(query);
+    public void sqlcod(Connection con, String query) throws SQLException {
+        try {
+            Statement s = con.createStatement();
+            s.executeUpdate(query);
+            
+        m = new MyConnection(con);
+        f = new CreateForm(con, m);
+      
+        } catch (Exception e) {
+            System.out.println(e);
         }
-         catch (Exception e){
-             System.out.println(e);
-          }
-        }
-        
+    }
 }

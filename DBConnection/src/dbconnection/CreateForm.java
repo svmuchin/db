@@ -44,10 +44,10 @@ public class CreateForm {
         model1 = new TM(data, detaName);
         model1.addTableModelListener(table);
         table = new JTable(model1);
-        table.setSize(500, 400);
+
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setLayout(new FlowLayout());
+
         panel.setSize(500, 400);
         panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
@@ -120,12 +120,14 @@ public class CreateForm {
         frame.setVisible(true);
     }
 
+
     public class IntActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new Select().sqlcod(con, "INSERT INTO TEST (name, Secondname) VALUES ('1', '1')");
+                new Select().sqlcod(con, "INSERT INTO TEST (name, Secondname) VALUES ('2', '1')");
+                
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -137,11 +139,11 @@ public class CreateForm {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                
+               
                 new Select().sqlcod(con, "Delete from TEST");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
+}
 }
