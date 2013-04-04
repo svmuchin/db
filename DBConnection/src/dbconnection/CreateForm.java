@@ -22,7 +22,7 @@ import javax.swing.*;
  *
  * @author Администратор
  */
-public class CreateForm {
+public class CreateForm extends JFrame {
 
     MyConnection m;
     public Connection con;
@@ -126,12 +126,24 @@ public class CreateForm {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new Select().sqlcod(con, "INSERT INTO TEST (name, Secondname) VALUES ('2', '1')");
+                new Select().sqlcod(con, "INSERT INTO TEST (F, S) VALUES ('2', '1')");
                 
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
+            finally {
+                try {
+                    updateTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
+        }
+    }
+    
+    public void updateTable() throws SQLException {
+        model1.setTableData(m.getData());
+        table.updateUI();
     }
 
     public class DelActionListener implements ActionListener {

@@ -33,7 +33,6 @@ public class TM extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-       this.fireTableDataChanged();
       return result.get(rowIndex).get(columnIndex);
     }
 
@@ -44,7 +43,9 @@ public class TM extends AbstractTableModel {
         return ColumName.get(column).toString();
     }
     
-
+      public void setTableData(ArrayList<ArrayList> tableData) {
+        result = tableData;
+    }
     
 }
 

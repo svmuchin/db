@@ -32,8 +32,8 @@ public class Select {
             Statement s = con.createStatement();
             s.executeUpdate(query);
             
-        m = new MyConnection(con);
-        f = new CreateForm(con, m);
+       // m = new MyConnection(con);
+        //f = new CreateForm(con, m);
       
         } catch (Exception e) {
             System.out.println(e);
