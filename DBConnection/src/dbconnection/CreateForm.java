@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 
 /**
  *
@@ -27,7 +28,8 @@ public class CreateForm extends JFrame {
     MyConnection m;
     public Connection con;
     public TableModel model;
-    public JButton but, but1;
+    JTextField Field, Field2;
+    public JButton but, but1, but2;
     public JTable table;
     public TM model1;
     public ArrayList<ArrayList> data;
@@ -53,7 +55,9 @@ public class CreateForm extends JFrame {
         JFrame frame = new JFrame("Database Table Model");
         but = new JButton("добавить");
         but1 = new JButton("очистить");
-
+        but2 = new JButton("удалить");
+        Field = new JTextField("");
+        Field2 = new JTextField("");
         panel.add(new JScrollPane(but));
         ActionListener IntactionListener = new IntActionListener();
         ActionListener DelactionListener = new DelActionListener();
@@ -64,9 +68,9 @@ public class CreateForm extends JFrame {
         Box box = Box.createVerticalBox();
         JToolBar toolBar = new JToolBar();
         box.add(new JScrollPane(table));
+        System.out.println(table.getColumnCount());
         toolBar.add(but);
         toolBar.add(but1);
-
         frame.setContentPane(box);
         frame.getContentPane().add(toolBar);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -117,30 +121,28 @@ public class CreateForm extends JFrame {
             public void windowDeactivated(WindowEvent e) {
             }
         });
+
         frame.setVisible(true);
     }
-
 
     public class IntActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new Select().sqlcod(con, "INSERT INTO TEST (F, S) VALUES ('2', '1')");
-                
+                new Select().sqlcod(con, "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','2', '1')");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            finally {
+            } finally {
                 try {
                     updateTable();
                 } catch (SQLException ex) {
                     Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        }
+            }
         }
     }
-    
+
     public void updateTable() throws SQLException {
         model1.setTableData(m.getData());
     }
@@ -149,12 +151,19 @@ public class CreateForm extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             try {
                
-                new Select().sqlcod(con, "Delete from TEST");
+                new Select().sqlcod(con, "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(),2) + "'");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    updateTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
-}
 }
