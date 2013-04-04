@@ -4,12 +4,10 @@
  */
 package dbconnection;
 
-import java.awt.event.WindowEvent;
-import javax.swing.table.TableModel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +15,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -29,6 +28,7 @@ public class CreateForm extends JFrame {
     public Connection con;
     public TableModel model;
     JTextField Field, Field2;
+    JLabel Label, Label2;
     public JButton but, but1, but2;
     public JTable table;
     public TM model1;
@@ -58,6 +58,8 @@ public class CreateForm extends JFrame {
         but2 = new JButton("удалить");
         Field = new JTextField("");
         Field2 = new JTextField("");
+        Label = new JLabel(table.getColumnName(0));
+        Label2 = new JLabel(table.getColumnName(1));
         panel.add(new JScrollPane(but));
         ActionListener IntactionListener = new IntActionListener();
         ActionListener DelactionListener = new DelActionListener();
@@ -66,13 +68,25 @@ public class CreateForm extends JFrame {
         frame.setSize(500, 400);
 
         Box box = Box.createVerticalBox();
+        Box Labelpanel = Box.createHorizontalBox();
+        Box Textpanel = Box.createHorizontalBox();
+
+        Textpanel.add(Field);
+        Textpanel.add(Field2);
+
+        Labelpanel.add(Label);
+        Labelpanel.add(Label2);
+
         JToolBar toolBar = new JToolBar();
         box.add(new JScrollPane(table));
-        System.out.println(table.getColumnCount());
+
         toolBar.add(but);
         toolBar.add(but1);
         frame.setContentPane(box);
         frame.getContentPane().add(toolBar);
+        frame.getContentPane().add(Labelpanel);
+        frame.getContentPane().add(Textpanel);
+
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener(new WindowListener() {
@@ -130,7 +144,7 @@ public class CreateForm extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new Select().sqlcod(con, "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','2', '1')");
+                new Select().sqlcod(con, "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','" + Field.getText() + "', '" + Field2.getText() + "')");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -149,12 +163,14 @@ public class CreateForm extends JFrame {
 
     public class DelActionListener implements ActionListener {
 
+        private Object someTable;
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
             try {
-               
-                new Select().sqlcod(con, "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(),2) + "'");
+
+                new Select().sqlcod(con, "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
