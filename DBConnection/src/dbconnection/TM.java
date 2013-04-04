@@ -45,7 +45,9 @@ public class TM extends AbstractTableModel {
     
       public void setTableData(ArrayList<ArrayList> tableData) {
         result = tableData;
+        fireTableDataChanged();
     }
+      
     
 }
 

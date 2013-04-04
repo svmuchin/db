@@ -143,7 +143,6 @@ public class CreateForm extends JFrame {
     
     public void updateTable() throws SQLException {
         model1.setTableData(m.getData());
-        table.updateUI();
     }
 
     public class DelActionListener implements ActionListener {
