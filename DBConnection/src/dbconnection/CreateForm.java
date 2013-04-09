@@ -51,7 +51,6 @@ public class CreateForm extends JFrame implements MouseListener {
         table.addMouseListener(this);
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
-
         panel.setSize(500, 400);
         panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
