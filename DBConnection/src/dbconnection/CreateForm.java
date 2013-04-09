@@ -7,6 +7,8 @@ package dbconnection;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
@@ -15,14 +17,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
  *
  * @author Администратор
  */
-public class CreateForm extends JFrame {
+public class CreateForm extends JFrame implements MouseListener {
 
     MyConnection m;
     public Connection con;
@@ -46,7 +47,7 @@ public class CreateForm extends JFrame {
         model1 = new TM(data, detaName);
         model1.addTableModelListener(table);
         table = new JTable(model1);
-
+        table.addMouseListener(this);
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -54,8 +55,8 @@ public class CreateForm extends JFrame {
         panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
         but = new JButton("добавить");
-        but1 = new JButton("очистить");
-        but2 = new JButton("удалить");
+        but1 = new JButton("удалить");
+        but2 = new JButton("изменить");
         Field = new JTextField("");
         Field2 = new JTextField("");
         Label = new JLabel(table.getColumnName(0));
@@ -63,8 +64,10 @@ public class CreateForm extends JFrame {
         panel.add(new JScrollPane(but));
         ActionListener IntactionListener = new IntActionListener();
         ActionListener DelactionListener = new DelActionListener();
+        ActionListener UpdateActionListener = new UpdateActionListener();
         but.addActionListener(IntactionListener);
         but1.addActionListener(DelactionListener);
+        but2.addActionListener(UpdateActionListener);
         frame.setSize(500, 400);
 
         Box box = Box.createVerticalBox();
@@ -82,6 +85,7 @@ public class CreateForm extends JFrame {
 
         toolBar.add(but);
         toolBar.add(but1);
+        toolBar.add(but2);
         frame.setContentPane(box);
         frame.getContentPane().add(toolBar);
         frame.getContentPane().add(Labelpanel);
@@ -139,6 +143,29 @@ public class CreateForm extends JFrame {
         frame.setVisible(true);
     }
 
+    @Override
+    public void mouseClicked(MouseEvent me) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+        Field.setText((String) model1.getValueAt(table.getSelectedRow(), 0));
+        Field2.setText((String) model1.getValueAt(table.getSelectedRow(), 0));
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+    }
+
     public class IntActionListener implements ActionListener {
 
         @Override
@@ -169,8 +196,27 @@ public class CreateForm extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             try {
-
                 new Select().sqlcod(con, "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'");
+            } catch (SQLException ex) {
+                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    updateTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+     public class UpdateActionListener implements ActionListener {
+
+        private Object someTable;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            try {
+                new Select().sqlcod(con, "Update TEST set name='"+Field.getText()+"', secondname='"+Field2.getText()+"' where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'");
             } catch (SQLException ex) {
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
