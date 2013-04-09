@@ -35,6 +35,7 @@ public class CreateForm extends JFrame implements MouseListener {
     public TM model1;
     public ArrayList<ArrayList> data;
     public ArrayList detaName;
+    String query = null;
 
     public CreateForm(Connection con, MyConnection m) throws SQLException {
         this.con = con;
@@ -57,16 +58,17 @@ public class CreateForm extends JFrame implements MouseListener {
         but = new JButton("добавить");
         but1 = new JButton("удалить");
         but2 = new JButton("изменить");
+        but.setActionCommand("insert");
+        but1.setActionCommand("delete");
+        but2.setActionCommand("update");
         Field = new JTextField("");
         Field2 = new JTextField("");
         Label = new JLabel(table.getColumnName(0));
         Label2 = new JLabel(table.getColumnName(1));
         panel.add(new JScrollPane(but));
-        ActionListener IntactionListener = new IntActionListener();
-        ActionListener DelactionListener = new DelActionListener();
         ActionListener UpdateActionListener = new UpdateActionListener();
-        but.addActionListener(IntactionListener);
-        but1.addActionListener(DelactionListener);
+        but.addActionListener(UpdateActionListener);
+        but1.addActionListener(UpdateActionListener);
         but2.addActionListener(UpdateActionListener);
         frame.setSize(500, 400);
 
@@ -166,59 +168,30 @@ public class CreateForm extends JFrame implements MouseListener {
     public void mouseExited(MouseEvent me) {
     }
 
-    public class IntActionListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                new Select().sqlcod(con, "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','" + Field.getText() + "', '" + Field2.getText() + "')");
-            } catch (SQLException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    updateTable();
-                } catch (SQLException ex) {
-                    Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
     public void updateTable() throws SQLException {
         model1.setTableData(m.getData());
     }
 
-    public class DelActionListener implements ActionListener {
+    public class UpdateActionListener implements ActionListener {
 
         private Object someTable;
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            try {
-                new Select().sqlcod(con, "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'");
-            } catch (SQLException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    updateTable();
-                } catch (SQLException ex) {
-                    Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if ("insert".equals(e.getActionCommand())) {
+                query = "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','" + Field.getText() + "', '" + Field2.getText() + "')";
             }
-        }
-    }
-     public class UpdateActionListener implements ActionListener {
-
-        private Object someTable;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
+            if ("delete".equals(e.getActionCommand())) {
+                query = "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'";
+            }
+            if ("update".equals(e.getActionCommand())) {
+                query = "Update TEST set name='" + Field.getText() + "', secondname='" + Field2.getText() + "' where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'";
+            }
             try {
-                new Select().sqlcod(con, "Update TEST set name='"+Field.getText()+"', secondname='"+Field2.getText()+"' where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'");
+                new Select().sqlcod(con, query);
             } catch (SQLException ex) {
-                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CreateForm.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     updateTable();
