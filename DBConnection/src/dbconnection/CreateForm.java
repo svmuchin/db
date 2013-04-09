@@ -30,7 +30,7 @@ public class CreateForm extends JFrame implements MouseListener {
     public TableModel model;
     JTextField Field, Field2;
     JLabel Label, Label2;
-    public JButton but, but1, but2;
+    public JButton but, but1, but2, but3;
     public JTable table;
     public TM model1;
     public ArrayList<ArrayList> data;
@@ -57,9 +57,11 @@ public class CreateForm extends JFrame implements MouseListener {
         but = new JButton("добавить");
         but1 = new JButton("удалить");
         but2 = new JButton("изменить");
+        but3 = new JButton("очистить");
         but.setActionCommand("insert");
         but1.setActionCommand("delete");
         but2.setActionCommand("update");
+        but3.setActionCommand("clean");
         Field = new JTextField("");
         Field2 = new JTextField("");
         Label = new JLabel(table.getColumnName(0));
@@ -69,6 +71,7 @@ public class CreateForm extends JFrame implements MouseListener {
         but.addActionListener(UpdateActionListener);
         but1.addActionListener(UpdateActionListener);
         but2.addActionListener(UpdateActionListener);
+        but3.addActionListener(UpdateActionListener);
         frame.setSize(500, 400);
 
         Box box = Box.createVerticalBox();
@@ -87,6 +90,7 @@ public class CreateForm extends JFrame implements MouseListener {
         toolBar.add(but);
         toolBar.add(but1);
         toolBar.add(but2);
+        toolBar.add(but3);
         frame.setContentPane(box);
         frame.getContentPane().add(toolBar);
         frame.getContentPane().add(Labelpanel);
@@ -183,6 +187,9 @@ public class CreateForm extends JFrame implements MouseListener {
             }
             if ("delete".equals(e.getActionCommand())) {
                 query = "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'";
+            }
+            if ("clean".equals(e.getActionCommand())) {
+                query = "Delete from TEST ";
             }
             if ("update".equals(e.getActionCommand())) {
                 query = "Update TEST set name='" + Field.getText() + "', secondname='" + Field2.getText() + "' where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'";
