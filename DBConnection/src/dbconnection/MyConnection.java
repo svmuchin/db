@@ -3,23 +3,32 @@ package dbconnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-public class MyConnection {
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.event.ListDataListener;
+
+public class MyConnection implements ComboBoxModel {
 
     Connection con;
     PreparedStatement create, select, insert;
     Statement qwe;
     ResultSet rs = null;
-    public ResultSet sel;
+    public ResultSet sel, listTable;
     public ArrayList element;
     public ArrayList<ArrayList> result;
     public ArrayList CollumName;
+    public ArrayList<String> TableName;
 
-    public MyConnection(Connection connect){       
-            con = connect;        
+    public MyConnection(Connection connect) {
+        con = connect;
+
     }
-            
+
+  
+
+  
+    
+
     public static Connection getConection(String jdbcUrl, String login, String password) throws SQLException {
         try {
             Class.forName("org.firebirdsql.jdbc.FBDriver");
@@ -34,36 +43,76 @@ public class MyConnection {
         }
     }
 
-    public ArrayList<ArrayList> getData() throws SQLException {
+    public ArrayList getData() throws SQLException {
 
-        int k = 1;
+
         result = new ArrayList();
         try {
-                        //System.out.println("true");
             sel = new Select().rs(con, "select * from TEST");
             int columnCount = sel.getMetaData().getColumnCount();
-            CollumName=new ArrayList();
-            for (int i=0;i<sel.getMetaData().getColumnCount();i++){
-             CollumName.add(sel.getMetaData().getColumnName(i+1).toString());
+            CollumName = new ArrayList();
+            for (int i = 0; i < sel.getMetaData().getColumnCount(); i++) {
+                CollumName.add(sel.getMetaData().getColumnName(i + 1).toString());
             }
-               while (sel.next()) {
+            while (sel.next()) {
                 element = new ArrayList();
                 for (int i = 1; i <= columnCount; i++) {
                     element.add(sel.getObject(i));
                 }
                 result.add(element);
+
+
             }
-           
-        }
-         catch (Exception e) {
+            MyConnection m = new MyConnection(con);
+            m.getTableList();
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }        
+        }
         return result;
     }
-    
-    public ArrayList getColumName() throws SQLException
-    {       
+
+    public ArrayList getColumName() throws SQLException {
         return CollumName;
     }
-}
 
+    public ArrayList getTableList() throws SQLException {
+        TableName = new ArrayList();
+        listTable = con.getMetaData().getTables("", "", "%", null);
+
+        while (listTable.next()) {
+            TableName.add(listTable.getString(3));
+            System.out.println(listTable.getString(3));
+        }
+        return TableName;
+
+    }
+
+    @Override
+    public void setSelectedItem(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object getSelectedItem() {
+        return null;
+    }
+
+    @Override
+    public int getSize() {
+        return 0;
+    }
+
+    @Override
+    public Object getElementAt(int i) {
+        return null;
+    }
+
+    @Override
+    public void addListDataListener(ListDataListener ll) {
+    }
+
+    @Override
+    public void removeListDataListener(ListDataListener ll) {
+    }
+}

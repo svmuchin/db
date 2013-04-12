@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
  */
 public class CreateForm extends JFrame implements MouseListener {
 
+    int i;
     MyConnection m;
     public Connection con;
     public TableModel model;
@@ -51,6 +52,11 @@ public class CreateForm extends JFrame implements MouseListener {
         table.addMouseListener(this);
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
+        JComboBox combobox = new JComboBox();
+        while (i < m.getTableList().size()) {
+            combobox.addItem(m.getTableList().get(i));
+            i++;
+        }
         panel.setSize(500, 400);
         panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
@@ -86,7 +92,7 @@ public class CreateForm extends JFrame implements MouseListener {
 
         JToolBar toolBar = new JToolBar();
         box.add(new JScrollPane(table));
-
+        box.add(combobox);
         toolBar.add(but);
         toolBar.add(but1);
         toolBar.add(but2);
