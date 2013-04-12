@@ -21,11 +21,6 @@ public class MyConnection {
 
     }
 
-  
-
-  
-    
-
     public static Connection getConection(String jdbcUrl, String login, String password) throws SQLException {
         try {
             Class.forName("org.firebirdsql.jdbc.FBDriver");
@@ -57,8 +52,6 @@ public class MyConnection {
                     element.add(sel.getObject(i));
                 }
                 result.add(element);
-
-
             }
             MyConnection m = new MyConnection(con);
             m.getTableList();
@@ -78,10 +71,8 @@ public class MyConnection {
         listTable = con.getMetaData().getTables("", "", "%", null);
         while (listTable.next()) {
             TableName.add(listTable.getString(3));
-            System.out.println(listTable.getString(3));
         }
         return TableName;
 
     }
 }
-   

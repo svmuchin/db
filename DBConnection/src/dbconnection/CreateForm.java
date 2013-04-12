@@ -24,7 +24,7 @@ import javax.swing.table.TableModel;
  * @author Администратор
  */
 public class CreateForm extends JFrame implements MouseListener {
-
+    String TableName;
     int i;
     MyConnection m;
     public Connection con;
@@ -53,10 +53,12 @@ public class CreateForm extends JFrame implements MouseListener {
         model1.addTableModelListener(table);
         JPanel panel = new JPanel(new BorderLayout());
         JComboBox combobox = new JComboBox();
+       
         while (i < m.getTableList().size()) {
             combobox.addItem(m.getTableList().get(i));
             i++;
         }
+        
         panel.setSize(500, 400);
         panel.add(new JScrollPane(table), BorderLayout.PAGE_START);
         JFrame frame = new JFrame("Database Table Model");
@@ -70,8 +72,12 @@ public class CreateForm extends JFrame implements MouseListener {
         but3.setActionCommand("clean");
         Field = new JTextField("");
         Field2 = new JTextField("");
-        Label = new JLabel(table.getColumnName(0));
-        Label2 = new JLabel(table.getColumnName(1));
+        Label = new JLabel();
+        Label2 = new JLabel();
+          if (table.getColumnCount()>0) {
+             Label.setText(table.getColumnName(0));
+             Label2.setText(table.getColumnName(1)); 
+        }
         panel.add(new JScrollPane(but));
         ActionListener UpdateActionListener = new UpdateActionListener();
         but.addActionListener(UpdateActionListener);
@@ -156,6 +162,7 @@ public class CreateForm extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent me) {
+        
     }
 
     @Override
@@ -189,7 +196,7 @@ public class CreateForm extends JFrame implements MouseListener {
         public void actionPerformed(ActionEvent e) {
 
             if ("insert".equals(e.getActionCommand())) {
-                query = "INSERT INTO TEST (ID, name, Secondname) VALUES ('" + table.getRowCount() + "','" + Field.getText() + "', '" + Field2.getText() + "')";
+                query = "INSERT INTO TEST (name, Secondname) VALUES ('" + Field.getText() + "', '" + Field2.getText() + "')";
             }
             if ("delete".equals(e.getActionCommand())) {
                 query = "Delete from TEST where Id='" + model1.getValueAt(table.getSelectedRow(), 2) + "'";
