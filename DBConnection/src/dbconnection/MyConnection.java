@@ -3,11 +3,8 @@ package dbconnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.event.ListDataListener;
 
-public class MyConnection implements ComboBoxModel {
+public class MyConnection {
 
     Connection con;
     PreparedStatement create, select, insert;
@@ -79,7 +76,6 @@ public class MyConnection implements ComboBoxModel {
     public ArrayList getTableList() throws SQLException {
         TableName = new ArrayList();
         listTable = con.getMetaData().getTables("", "", "%", null);
-
         while (listTable.next()) {
             TableName.add(listTable.getString(3));
             System.out.println(listTable.getString(3));
@@ -87,32 +83,5 @@ public class MyConnection implements ComboBoxModel {
         return TableName;
 
     }
-
-    @Override
-    public void setSelectedItem(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Object getSelectedItem() {
-        return null;
-    }
-
-    @Override
-    public int getSize() {
-        return 0;
-    }
-
-    @Override
-    public Object getElementAt(int i) {
-        return null;
-    }
-
-    @Override
-    public void addListDataListener(ListDataListener ll) {
-    }
-
-    @Override
-    public void removeListDataListener(ListDataListener ll) {
-    }
 }
+   
